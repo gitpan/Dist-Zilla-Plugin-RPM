@@ -1,0 +1,7 @@
+LICENSE
+MANIFEST
+META.json
+META.yml
+Makefile.PL
+dist.ini
+lib/Dist/Zilla/Plugin/RPM.pm

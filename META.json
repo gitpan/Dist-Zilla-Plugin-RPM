@@ -1,0 +1,42 @@
+{
+   "abstract" : "Build an RPM from your Dist::Zilla release",
+   "author" : [
+      "Stephen Clouse <stephenclouse@gmail.com>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Dist::Zilla version 4.300002, CPAN::Meta::Converter version 2.110440",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : "2"
+   },
+   "name" : "Dist-Zilla-Plugin-RPM",
+   "prereqs" : {
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "6.30"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Dist::Zilla" : 0
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "mailto" : "bug-dist-zilla-plugin-rpm@rt.cpan.org",
+         "web" : "http://rt.cpan.org/NoAuth/Bugs.html?Dist=Dist-Zilla-Plugin-RPM"
+      },
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/StephenClouse/perl-dist-zilla-plugin-rpm.git",
+         "web" : "https://github.com/StephenClouse/perl-dist-zilla-plugin-rpm"
+      }
+   },
+   "version" : "0.001"
+}
+

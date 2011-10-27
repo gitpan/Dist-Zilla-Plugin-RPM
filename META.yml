@@ -1,0 +1,20 @@
+---
+abstract: 'Build an RPM from your Dist::Zilla release'
+author:
+  - 'Stephen Clouse <stephenclouse@gmail.com>'
+build_requires: {}
+configure_requires:
+  ExtUtils::MakeMaker: 6.30
+dynamic_config: 0
+generated_by: 'Dist::Zilla version 4.300002, CPAN::Meta::Converter version 2.110440'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Dist-Zilla-Plugin-RPM
+requires:
+  Dist::Zilla: 0
+resources:
+  bugtracker: http://rt.cpan.org/NoAuth/Bugs.html?Dist=Dist-Zilla-Plugin-RPM
+  repository: git://github.com/StephenClouse/perl-dist-zilla-plugin-rpm.git
+version: 0.001
