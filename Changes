@@ -1,0 +1,8 @@
+0.002     Wed Mar 14 2012 04:42:10 PM CDT
+- Added ignore_build_deps option
+- Added dzil mkrpmspec command
+- Documentation fixes
+- Dependency fixes
+
+0.001     Wed Oct 27 2011  3:57:00 PM CDT
+- Initial release

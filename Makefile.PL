@@ -20,9 +20,17 @@ my %WriteMakefileArgs = (
   "LICENSE" => "perl",
   "NAME" => "Dist::Zilla::Plugin::RPM",
   "PREREQ_PM" => {
-    "Dist::Zilla" => 0
+    "Carp" => 0,
+    "Dist::Zilla" => 0,
+    "Dist::Zilla::App" => 0,
+    "File::Temp" => 0,
+    "Moose" => 0,
+    "Moose::Autobox" => 0,
+    "Path::Class" => 0,
+    "Text::Template" => 0,
+    "namespace::autoclean" => 0
   },
-  "VERSION" => "0.001",
+  "VERSION" => "0.002",
   "test" => {
     "TESTS" => ""
   }

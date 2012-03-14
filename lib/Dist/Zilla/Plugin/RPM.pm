@@ -5,7 +5,7 @@ use Moose;
 use Moose::Autobox;
 use namespace::autoclean;
 
-our $VERSION = '0.001'; # VERSION
+our $VERSION = '0.002'; # VERSION
 
 with 'Dist::Zilla::Role::Releaser',
      'Dist::Zilla::Role::FilePruner';
@@ -17,6 +17,12 @@ has spec_file => (
 );
 
 has sign => (
+    is      => 'ro',
+    isa     => 'Bool',
+    default => 0,
+);
+
+has ignore_build_deps => (
     is      => 'ro',
     isa     => 'Bool',
     default => 0,
@@ -40,19 +46,8 @@ sub prune_files {
 sub release {
     my($self,$archive) = @_;
 
-    my $t = Text::Template->new(
-        TYPE       => 'FILE',
-        SOURCE     => $self->spec_file,
-        DELIMITERS => [ '<%', '%>' ],
-    ) || $self->log_fatal($Text::Template::ERROR);
-    my $spec = $t->fill_in(
-        HASH => {
-            zilla   => \($self->zilla),
-            archive => \$archive,
-        },
-    ) || $self->log_fatal($Text::Template::ERROR);
     my $tmp = File::Temp->new();
-    $tmp->print($spec);
+    $tmp->print($self->mk_spec);
     $tmp->flush;
 
     my $sourcedir = qx/rpm --eval '%{_sourcedir}'/
@@ -63,12 +58,28 @@ sub release {
         && $self->log_fatal('cp failed');
 
     my @cmd = qw/rpmbuild -ba/;
-    push @cmd, qw/--sign/ if $self->sign;
+    push @cmd, qw/--sign/   if $self->sign;
+    push @cmd, qw/--nodeps/ if $self->ignore_build_deps;
     push @cmd, $tmp->filename;
 
     system(@cmd) && $self->log_fatal('rpmbuild failed');
 
     return;
+}
+
+sub mk_spec {
+    my($self,$archive) = @_;
+    my $t = Text::Template->new(
+        TYPE       => 'FILE',
+        SOURCE     => $self->spec_file,
+        DELIMITERS => [ '<%', '%>' ],
+    ) || $self->log_fatal($Text::Template::ERROR);
+    return $t->fill_in(
+        HASH => {
+            zilla   => \($self->zilla),
+            archive => \$archive,
+        },
+    ) || $self->log_fatal($Text::Template::ERROR);
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -85,7 +96,7 @@ Dist::Zilla::Plugin::RPM - Build an RPM from your Dist::Zilla release
 
 =head1 VERSION
 
-version 0.001
+version 0.002
 
 =head1 SYNOPSIS
 
@@ -94,6 +105,7 @@ In your dist.ini:
     [RPM]
     spec_file = build/dist.spec
     sign = 1
+    ignore_build_deps = 0
 
 =head1 DESCRIPTION
 
@@ -104,9 +116,9 @@ distribution.
 
 =over
 
-=item spec_file
+=item spec_file (default: "build/dist.spec")
 
-The spec file to use to build the RPM.  The default is "build/dist.spec".
+The spec file to use to build the RPM.
 
 The spec file is run through L<Text::Template|Text::Template> before calling
 rpmbuild, so you can substitute values from Dist::Zilla into the final output.
@@ -127,9 +139,15 @@ The filename of the release tarball
 
 =back
 
-=item sign
+=item sign (default: False)
 
 If set to a true value, rpmbuild will be called with the --sign option.
+
+=back
+
+=item ignore_build_deps (default: False)
+
+If set to a true value, rpmbuild will be called with the --nodeps option.
 
 =back
 
@@ -138,7 +156,7 @@ If set to a true value, rpmbuild will be called with the --sign option.
     Name: <% $zilla->name %>
     Version: <% (my $v = $zilla->version) =~ s/^v//; $v %>
     Release: 1
-    
+
     Summary: <% $zilla->abstract %>
     Copyright: <% $zilla->license->holder %>
     Group: Applications/CPAN
@@ -164,7 +182,7 @@ If set to a true value, rpmbuild will be called with the --sign option.
         rm -rf %{buildroot}
     fi
     make install DESTDIR=%{buildroot}
-    find %{buildroot} | sed -e 's#/home/sclouse/devel/CCI-Schema-MORE##' > %{_tmppath}/filelist    
+    find %{buildroot} | sed -e 's#%{buildroot}##' > %{_tmppath}/filelist
     
     %clean
     if [ "%{buildroot}" != "/" ] ; then

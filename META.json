@@ -4,7 +4,7 @@
       "Stephen Clouse <stephenclouse@gmail.com>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 4.300002, CPAN::Meta::Converter version 2.110440",
+   "generated_by" : "Dist::Zilla version 4.300009, CPAN::Meta::Converter version 2.120530",
    "license" : [
       "perl_5"
    ],
@@ -21,7 +21,15 @@
       },
       "runtime" : {
          "requires" : {
-            "Dist::Zilla" : 0
+            "Carp" : "0",
+            "Dist::Zilla" : "0",
+            "Dist::Zilla::App" : "0",
+            "File::Temp" : "0",
+            "Moose" : "0",
+            "Moose::Autobox" : "0",
+            "Path::Class" : "0",
+            "Text::Template" : "0",
+            "namespace::autoclean" : "0"
          }
       }
    },
@@ -37,6 +45,6 @@
          "web" : "https://github.com/StephenClouse/perl-dist-zilla-plugin-rpm"
       }
    },
-   "version" : "0.001"
+   "version" : "0.002"
 }
 

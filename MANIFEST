@@ -1,7 +1,9 @@
+Changes
 LICENSE
 MANIFEST
 META.json
 META.yml
 Makefile.PL
 dist.ini
+lib/Dist/Zilla/App/Command/mkrpmspec.pm
 lib/Dist/Zilla/Plugin/RPM.pm
