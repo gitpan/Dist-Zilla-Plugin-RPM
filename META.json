@@ -34,6 +34,7 @@
       },
       "test" : {
          "requires" : {
+            "File::Which" : "0",
             "Test::DZil" : "0",
             "Test::Differences" : "0",
             "Test::More" : "0.88"
@@ -52,6 +53,6 @@
          "web" : "https://github.com/StephenClouse/perl-dist-zilla-plugin-rpm"
       }
    },
-   "version" : "0.004"
+   "version" : "0.005"
 }
 

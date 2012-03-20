@@ -1,3 +1,7 @@
+0.005     Tue Mar 20 2012 04:19:05 PM CDT
+- Skip tests that call rpmbuild if not on system (tired of getting CPAN
+  tester fail reports from BSD platforms)
+
 0.004     Mon Mar 19 2012 08:26:00 PM CDT
 - Hide test module from PAUSE
 

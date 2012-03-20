@@ -3,6 +3,7 @@ abstract: 'Build an RPM from your Dist::Zilla release'
 author:
   - 'Stephen Clouse <stephenclouse@gmail.com>'
 build_requires:
+  File::Which: 0
   Test::DZil: 0
   Test::Differences: 0
   Test::More: 0.88
@@ -28,4 +29,4 @@ requires:
 resources:
   bugtracker: http://rt.cpan.org/NoAuth/Bugs.html?Dist=Dist-Zilla-Plugin-RPM
   repository: git://github.com/StephenClouse/perl-dist-zilla-plugin-rpm.git
-version: 0.004
+version: 0.005
