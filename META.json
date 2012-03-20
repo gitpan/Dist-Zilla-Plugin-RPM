@@ -31,6 +31,13 @@
             "Text::Template" : "0",
             "namespace::autoclean" : "0"
          }
+      },
+      "test" : {
+         "requires" : {
+            "Test::DZil" : "0",
+            "Test::Differences" : "0",
+            "Test::More" : "0.88"
+         }
       }
    },
    "release_status" : "stable",
@@ -45,6 +52,6 @@
          "web" : "https://github.com/StephenClouse/perl-dist-zilla-plugin-rpm"
       }
    },
-   "version" : "0.002"
+   "version" : "0.003"
 }
 

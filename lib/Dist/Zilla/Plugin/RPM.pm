@@ -5,7 +5,7 @@ use Moose;
 use Moose::Autobox;
 use namespace::autoclean;
 
-our $VERSION = '0.002'; # VERSION
+our $VERSION = '0.003'; # VERSION
 
 with 'Dist::Zilla::Role::Releaser',
      'Dist::Zilla::Role::FilePruner';
@@ -47,7 +47,7 @@ sub release {
     my($self,$archive) = @_;
 
     my $tmp = File::Temp->new();
-    $tmp->print($self->mk_spec);
+    $tmp->print($self->mk_spec($archive));
     $tmp->flush;
 
     my $sourcedir = qx/rpm --eval '%{_sourcedir}'/
@@ -62,7 +62,11 @@ sub release {
     push @cmd, qw/--nodeps/ if $self->ignore_build_deps;
     push @cmd, $tmp->filename;
 
-    system(@cmd) && $self->log_fatal('rpmbuild failed');
+    if ($ENV{DZIL_PLUGIN_RPM_TEST}) {
+        $self->log("test: would have executed @cmd");
+    } else {
+        system(@cmd) && $self->log_fatal('rpmbuild failed');
+    }
 
     return;
 }
@@ -71,7 +75,7 @@ sub mk_spec {
     my($self,$archive) = @_;
     my $t = Text::Template->new(
         TYPE       => 'FILE',
-        SOURCE     => $self->spec_file,
+        SOURCE     => $self->zilla->root->file($self->spec_file),
         DELIMITERS => [ '<%', '%>' ],
     ) || $self->log_fatal($Text::Template::ERROR);
     return $t->fill_in(
@@ -96,7 +100,7 @@ Dist::Zilla::Plugin::RPM - Build an RPM from your Dist::Zilla release
 
 =head1 VERSION
 
-version 0.002
+version 0.003
 
 =head1 SYNOPSIS
 
@@ -158,7 +162,7 @@ If set to a true value, rpmbuild will be called with the --nodeps option.
     Release: 1
 
     Summary: <% $zilla->abstract %>
-    Copyright: <% $zilla->license->holder %>
+    License: GPL+ or Artistic
     Group: Applications/CPAN
     BuildArch: noarch
     URL: <% $zilla->license->url %>

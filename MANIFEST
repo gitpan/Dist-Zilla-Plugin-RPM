@@ -4,6 +4,10 @@ MANIFEST
 META.json
 META.yml
 Makefile.PL
+corpus/dist/build/dist.spec
+corpus/dist/lib/DZ1.pm
 dist.ini
 lib/Dist/Zilla/App/Command/mkrpmspec.pm
 lib/Dist/Zilla/Plugin/RPM.pm
+t/01mkspec.t
+t/02release.t

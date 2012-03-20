@@ -2,7 +2,10 @@
 abstract: 'Build an RPM from your Dist::Zilla release'
 author:
   - 'Stephen Clouse <stephenclouse@gmail.com>'
-build_requires: {}
+build_requires:
+  Test::DZil: 0
+  Test::Differences: 0
+  Test::More: 0.88
 configure_requires:
   ExtUtils::MakeMaker: 6.30
 dynamic_config: 0
@@ -25,4 +28,4 @@ requires:
 resources:
   bugtracker: http://rt.cpan.org/NoAuth/Bugs.html?Dist=Dist-Zilla-Plugin-RPM
   repository: git://github.com/StephenClouse/perl-dist-zilla-plugin-rpm.git
-version: 0.002
+version: 0.003

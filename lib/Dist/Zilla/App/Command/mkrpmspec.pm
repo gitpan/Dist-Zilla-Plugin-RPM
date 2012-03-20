@@ -7,7 +7,7 @@ use Carp;
 
 use Dist::Zilla::App -command;
 
-our $VERSION = '0.002'; # VERSION
+our $VERSION = '0.003'; # VERSION
 
 sub abstract { 'generate RPM spec file from your build template' }
 
@@ -44,7 +44,7 @@ Dist::Zilla::App::Command::mkrpmspec - generate RPM spec file from your template
 
 =head1 VERSION
 
-version 0.002
+version 0.003
 
 =head1 SYNOPSIS
 
