@@ -6,7 +6,7 @@ use Moose::Autobox;
 use Moose::Util::TypeConstraints qw(enum);
 use namespace::autoclean;
 
-our $VERSION = '0.006'; # VERSION
+our $VERSION = '0.007'; # VERSION
 
 with 'Dist::Zilla::Role::Releaser',
      'Dist::Zilla::Role::FilePruner';
@@ -37,6 +37,7 @@ has ignore_build_deps => (
 
 use Carp;
 use File::Temp ();
+use Path::Class qw(dir);
 use Text::Template ();
 
 sub prune_files {
@@ -53,7 +54,9 @@ sub prune_files {
 sub release {
     my($self,$archive) = @_;
 
-    my $tmp = File::Temp->new();
+    my $tmpdir  = File::Temp->newdir();
+    my $tmpfile = dir($tmpdir)->file($self->zilla->name . '.spec');
+    my $tmp = $tmpfile->openw();
     $tmp->print($self->mk_spec($archive));
     $tmp->flush;
 
@@ -74,7 +77,7 @@ sub release {
     }
     push @cmd, qw/--sign/   if $self->sign;
     push @cmd, qw/--nodeps/ if $self->ignore_build_deps;
-    push @cmd, $tmp->filename;
+    push @cmd, "$tmpfile";
 
     if ($ENV{DZIL_PLUGIN_RPM_TEST}) {
         $self->log("test: would have executed @cmd");
@@ -114,7 +117,7 @@ Dist::Zilla::Plugin::RPM - Build an RPM from your Dist::Zilla release
 
 =head1 VERSION
 
-version 0.006
+version 0.007
 
 =head1 SYNOPSIS
 
