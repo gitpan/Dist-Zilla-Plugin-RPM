@@ -35,7 +35,7 @@ my %WriteMakefileArgs = (
     "Text::Template" => 0,
     "namespace::autoclean" => 0
   },
-  "VERSION" => "0.005",
+  "VERSION" => "0.006",
   "test" => {
     "TESTS" => "t/*.t"
   }

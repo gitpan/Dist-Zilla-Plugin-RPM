@@ -3,9 +3,10 @@ package Dist::Zilla::Plugin::RPM;
 
 use Moose;
 use Moose::Autobox;
+use Moose::Util::TypeConstraints qw(enum);
 use namespace::autoclean;
 
-our $VERSION = '0.005'; # VERSION
+our $VERSION = '0.006'; # VERSION
 
 with 'Dist::Zilla::Role::Releaser',
      'Dist::Zilla::Role::FilePruner';
@@ -14,6 +15,12 @@ has spec_file => (
     is      => 'ro',
     isa     => 'Str',
     default => 'build/dist.spec',
+);
+
+has build => (
+    is      => 'ro',
+    isa     => enum([qw/source all/]),
+    default => 'all',
 );
 
 has sign => (
@@ -57,7 +64,14 @@ sub release {
     system('cp',$archive,$sourcedir)
         && $self->log_fatal('cp failed');
 
-    my @cmd = qw/rpmbuild -ba/;
+    my @cmd = qw/rpmbuild/;
+    if ($self->build eq 'source') {
+        push @cmd, qw/-bs/;
+    } elsif ($self->build eq 'all') {
+        push @cmd, qw/-ba/;
+    } else {
+        $self->log_fatal(q{invalid build type }.$self->build);
+    }
     push @cmd, qw/--sign/   if $self->sign;
     push @cmd, qw/--nodeps/ if $self->ignore_build_deps;
     push @cmd, $tmp->filename;
@@ -100,7 +114,7 @@ Dist::Zilla::Plugin::RPM - Build an RPM from your Dist::Zilla release
 
 =head1 VERSION
 
-version 0.005
+version 0.006
 
 =head1 SYNOPSIS
 

@@ -79,5 +79,26 @@ local $ENV{DZIL_PLUGIN_RPM_TEST} = 1;
     );
 }
 
+{
+    my $tzil = Builder->from_config(
+        { dist_root => 'corpus/dist' },
+        {
+            add_files => {
+                'source/dist.ini' => simple_ini(
+                    ['RPM' => {
+                        build => 'source'
+                    }],
+                ),
+            },
+        },
+    );
+    $tzil->release;
+
+    ok(
+        grep({ /test: would have executed rpmbuild -bs / } @{ $tzil->log_messages }),
+        "build = source option",
+    );
+}
+
 done_testing;
 

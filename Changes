@@ -1,3 +1,5 @@
+0.006     Wed Nov 14 2012 07:10:38 PM CST
+
 0.005     Tue Mar 20 2012 04:19:05 PM CDT
 - Skip tests that call rpmbuild if not on system (tired of getting CPAN
   tester fail reports from BSD platforms)
